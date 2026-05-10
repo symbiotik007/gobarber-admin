@@ -11,7 +11,7 @@ import {
   Overlay, Modal, ModalTitle, ModalActions, CancelBtn, LoadingWrap,
 } from './styles';
 
-const TABS = ['Pagos', 'Reservas', 'Horarios', 'Servicios', 'Sucursales', 'Negocio', 'Barberos'];
+const TABS = ['Pagos', 'Reservas', 'Horarios', 'Servicios', 'Sucursales', 'Negocio', 'Barberos', 'Usuarios'];
 
 var EMPTY_SERVICE = {
   name: '', duration_minutes: 30, price: 0,
@@ -365,7 +365,7 @@ function ScheduleTab({ settings, onSave, saving }) {
 
   function handleSave() {
     var buf = parseInt(buffer, 10);
-    if (isNaN(buf) || buf < 0) { toast.error('El buffer debe ser 0 o mayor.'); return; }
+    if (isNaN(buf) || buf < 0) { toast.error('El descanso entre citas debe ser 0 o mayor.'); return; }
     onSave({
       work_hours: JSON.stringify(workHours),
       slot_buffer_minutes: String(buf),
@@ -412,10 +412,10 @@ function ScheduleTab({ settings, onSave, saving }) {
         })}
       </div>
 
-      <SectionTitle style={{ marginTop: 28 }}>Buffer entre citas</SectionTitle>
+      <SectionTitle style={{ marginTop: 28 }}>Descanso entre citas</SectionTitle>
       <FormGrid cols={2}>
         <FormGroup>
-          <Label>Minutos de buffer entre citas</Label>
+          <Label>Minutos de descanso entre citas</Label>
           <Input
             type="number"
             min="0"
@@ -423,7 +423,7 @@ function ScheduleTab({ settings, onSave, saving }) {
             value={buffer}
             onChange={function(e) { setBuffer(e.target.value); }}
           />
-          <Hint>Tiempo libre que se deja entre una cita y la siguiente (0 = sin buffer).</Hint>
+          <Hint>Tiempo que se bloquea después de cada cita para descansar, limpiar o prepararse. Pon 0 si no necesitas pausa.</Hint>
         </FormGroup>
       </FormGrid>
 
@@ -744,9 +744,9 @@ function BarbersTab() {
 
   var load = useCallback(function() {
     api.get('/admin/users').then(function(r) {
-      setUsers(r.data);
+      setUsers(r.data.filter(function(u) { return u.provider; }));
     }).catch(function() {
-      toast.error('Error al cargar usuarios.');
+      toast.error('Error al cargar barberos.');
     }).finally(function() { setLoading(false); });
   }, []);
 
@@ -771,9 +771,9 @@ function BarbersTab() {
   return (
     <Section>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <SectionTitle style={{ margin: 0 }}>Usuarios del panel</SectionTitle>
+        <SectionTitle style={{ margin: 0 }}>Barberos</SectionTitle>
         <GhostBtn onClick={function() { setModal({}); }}>
-          <MdAdd size={16} /> Nuevo usuario
+          <MdAdd size={16} /> Nuevo barbero
         </GhostBtn>
       </div>
 
@@ -787,12 +787,12 @@ function BarbersTab() {
                   : <MdSecurity size={16} color={colors.secondaryLight} />
                 }
               </div>
-              <div style={{ minWidth: 0 }}>
+              <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <ServiceName>{u.name}</ServiceName>
                 <ServiceDetail>{u.email}</ServiceDetail>
               </div>
-              <StatusToggle active={u.provider ? 1 : 0} style={{ cursor: 'default' }}>
-                {u.provider ? 'Barbero' : 'Admin'}
+              <StatusToggle active={1} style={{ cursor: 'default' }}>
+                Barbero
               </StatusToggle>
               <EditBtn onClick={function() { setModal(u); }}>
                 <MdEdit size={13} /> Editar
@@ -808,7 +808,7 @@ function BarbersTab() {
           );
         })}
         {users.length === 0 && (
-          <div style={{ textAlign: 'center', color: colors.textMuted, padding: '40px 0' }}>No hay usuarios.</div>
+          <div style={{ textAlign: 'center', color: colors.textMuted, padding: '40px 0' }}>No hay barberos registrados.</div>
         )}
       </ServiceTable>
 
@@ -841,6 +841,53 @@ function BarbersTab() {
           </Modal>
         </Overlay>
       )}
+    </Section>
+  );
+}
+
+/* ─── Tab: Usuarios (clientes del client-side) ───────────── */
+function ClientsTab() {
+  var [clients, setClients] = useState([]);
+  var [loading, setLoading] = useState(true);
+
+  useEffect(function() {
+    api.get('/admin/users').then(function(r) {
+      setClients(r.data.filter(function(u) { return !u.provider; }));
+    }).catch(function() {
+      toast.error('Error al cargar usuarios.');
+    }).finally(function() { setLoading(false); });
+  }, []);
+
+  if (loading) return <LoadingWrap><Spinner /></LoadingWrap>;
+
+  return (
+    <Section>
+      <SectionTitle style={{ marginTop: 0 }}>Usuarios registrados</SectionTitle>
+      <ServiceTable>
+        {clients.map(function(u) {
+          return (
+            <ServiceRow key={u.id} style={{ gridTemplateColumns: 'auto 1fr auto' }}>
+              <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(79,142,247,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: colors.primary }}>
+                  {u.name.charAt(0).toUpperCase()}
+                </span>
+              </div>
+              <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <ServiceName>{u.name}</ServiceName>
+                <ServiceDetail>{u.email}</ServiceDetail>
+              </div>
+              <ServiceDetail style={{ whiteSpace: 'nowrap', fontSize: 11 }}>
+                {u.created_at ? new Date(u.created_at).toLocaleDateString('es-CO', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
+              </ServiceDetail>
+            </ServiceRow>
+          );
+        })}
+        {clients.length === 0 && (
+          <div style={{ textAlign: 'center', color: colors.textMuted, padding: '40px 0' }}>
+            Aún no hay usuarios registrados desde la app.
+          </div>
+        )}
+      </ServiceTable>
     </Section>
   );
 }
@@ -901,6 +948,7 @@ export default function Settings() {
       {activeTab === 4 && <BranchesTab />}
       {activeTab === 5 && <BusinessTab settings={settings} onSave={handleSave} saving={saving} />}
       {activeTab === 6 && <BarbersTab />}
+      {activeTab === 7 && <ClientsTab />}
     </Container>
   );
 }
