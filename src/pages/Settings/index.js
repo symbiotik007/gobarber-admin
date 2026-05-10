@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
-import { MdSave, MdAdd, MdEdit, MdStoreMallDirectory, MdDelete, MdPerson, MdSecurity, MdContentCut } from 'react-icons/md';
+import { MdSave, MdAdd, MdEdit, MdStoreMallDirectory, MdDelete, MdSecurity, MdContentCut } from 'react-icons/md';
 import api from '~/services/api';
 import {
   Container, PageTitle, TabBar, Tab, Section, SectionTitle,
