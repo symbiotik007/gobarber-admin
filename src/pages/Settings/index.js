@@ -5,7 +5,7 @@ import api from '~/services/api';
 import {
   Container, PageTitle, TabBar, Tab, Section, SectionTitle,
   FormGrid, FormGroup, Label, Input, Select, Hint,
-  SaveBtn, DangerBtn, GhostBtn, Actions, Spinner, SuccessMsg,
+  SaveBtn, GhostBtn, Actions, Spinner, SuccessMsg,
   ServiceTable, ServiceRow, ServiceName, ServiceDetail, StatusToggle, EditBtn,
   Overlay, Modal, ModalTitle, ModalActions, CancelBtn, LoadingWrap,
 } from './styles';
