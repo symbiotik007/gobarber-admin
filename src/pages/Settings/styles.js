@@ -77,7 +77,7 @@ export const Label = styled.label`
 
 export const Input = styled.input`
   padding: 12px 14px;
-  background: #232129;
+  background: #181620;
   border: 2px solid ${p => p.error ? '#e05555' : 'rgba(255,144,0,0.15)'};
   border-radius: 10px;
   color: #f4ede8;
@@ -89,7 +89,7 @@ export const Input = styled.input`
 
 export const Select = styled.select`
   padding: 12px 14px;
-  background: #232129;
+  background: #181620;
   border: 2px solid rgba(255,144,0,0.15);
   border-radius: 10px;
   color: #f4ede8;
@@ -99,10 +99,10 @@ export const Select = styled.select`
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23ff9000' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
-  background-color: #232129;
+  background-color: #181620;
   padding-right: 32px;
   &:focus { outline: none; border-color: #ff9000; }
-  option { background: #232129; }
+  option { background: #181620; }
 `;
 
 export const Hint = styled.span`
@@ -183,7 +183,7 @@ export const ServiceTable = styled.div`
 `;
 
 export const ServiceRow = styled.div`
-  background: #232129;
+  background: #181620;
   border-radius: 12px;
   padding: 16px 20px;
   display: grid;
@@ -241,7 +241,7 @@ export const Overlay = styled.div`
 `;
 
 export const Modal = styled.div`
-  background: #2d2b35;
+  background: #1e1c28;
   border-radius: 16px;
   padding: 28px;
   width: 100%;

@@ -27,7 +27,7 @@ export const StatsBar = styled.div`
 `;
 
 export const StatCard = styled.div`
-  background: #232129;
+  background: #181620;
   border-radius: 12px;
   padding: 16px;
   display: flex;
@@ -59,7 +59,7 @@ export const Filters = styled.div`
 
 export const FilterInput = styled.input`
   padding: 10px 14px;
-  background: #232129;
+  background: #181620;
   border: 2px solid transparent;
   border-radius: 10px;
   color: #f4ede8;
@@ -71,7 +71,7 @@ export const FilterInput = styled.input`
 
 export const FilterSelect = styled.select`
   padding: 10px 14px;
-  background: #232129;
+  background: #181620;
   border: 2px solid transparent;
   border-radius: 10px;
   color: #f4ede8;
@@ -81,10 +81,10 @@ export const FilterSelect = styled.select`
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23ff9000' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
-  background-color: #232129;
+  background-color: #181620;
   padding-right: 32px;
   &:focus { outline: none; border-color: #ff9000; }
-  option { background: #232129; }
+  option { background: #181620; }
 `;
 
 /* ─── Booking card ───────────────────────────────────────── */
@@ -271,7 +271,7 @@ export const ConfirmModal = styled.div`
 `;
 
 export const ModalBox = styled.div`
-  background: #2d2b35;
+  background: #1e1c28;
   border-radius: 16px;
   padding: 28px;
   width: 100%;
@@ -296,7 +296,7 @@ export const ModalText = styled.p`
 export const ModalInput = styled.input`
   width: 100%;
   padding: 12px 14px;
-  background: #232129;
+  background: #181620;
   border: 2px solid rgba(255,144,0,0.2);
   border-radius: 10px;
   color: #f4ede8;
@@ -341,11 +341,11 @@ export const Pagination = styled.div`
 
 export const PageBtn = styled.button`
   ${btnBase}
-  background: #232129;
+  background: #181620;
   color: #f4ede8;
   padding: 8px 14px;
   &:disabled { opacity: 0.3; cursor: not-allowed; }
-  &:hover:not(:disabled) { background: #2d2b35; }
+  &:hover:not(:disabled) { background: #1e1c28; }
 `;
 
 export const ExportBtn = styled.button`
@@ -369,7 +369,7 @@ export const RevenueBar = styled.div`
 `;
 
 export const RevenueCard = styled.div`
-  background: linear-gradient(135deg, #232129, #2d2b35);
+  background: linear-gradient(135deg, #181620, #1e1c28);
   border: 1px solid rgba(255,144,0,0.15);
   border-radius: 12px;
   padding: 16px 18px;

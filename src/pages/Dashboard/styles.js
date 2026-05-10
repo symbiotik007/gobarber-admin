@@ -17,7 +17,7 @@ export const Container = styled.div`
     display: flex;
     align-self: center;
     align-items: center;
-    background: #232129;
+    background: #181620;
     border: 1px solid rgba(255, 144, 0, 0.15);
     border-radius: 14px;
     padding: 10px 8px;
@@ -71,7 +71,7 @@ export const Container = styled.div`
 export const Time = styled.li`
   padding: 20px 22px;
   border-radius: 14px;
-  background: #232129;
+  background: #181620;
   border: 1px solid ${props =>
     props.available
       ? 'rgba(255,255,255,0.04)'
