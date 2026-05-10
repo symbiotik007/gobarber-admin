@@ -57,7 +57,13 @@
       "Bash(git commit *)",
       "Bash(git push *)",
       "Bash(cat src/services/api.js)",
-      "Bash(cat src/services/api.ts)"
+      "Bash(cat src/services/api.ts)",
+      "Bash(git pull *)",
+      "Bash(git stash *)",
+      "Bash(python -m json.tool)",
+      "Bash(python -c ' *)",
+      "Bash(vercel --version)",
+      "Bash(vercel ls *)"
     ]
   }
 }
