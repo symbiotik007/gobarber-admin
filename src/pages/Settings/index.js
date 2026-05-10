@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
-import { MdSave, MdAdd, MdEdit, MdStoreMallDirectory, MdDelete, MdPerson, MdAdminPanelSettings, MdContentCut } from 'react-icons/md';
+import { MdSave, MdAdd, MdEdit, MdStoreMallDirectory, MdDelete, MdPerson, MdSecurity, MdContentCut } from 'react-icons/md';
 import api from '~/services/api';
 import {
   Container, PageTitle, TabBar, Tab, Section, SectionTitle,
@@ -716,7 +716,7 @@ function UserModal({ user, onClose, onSaved }) {
               Barbero
             </StatusToggle>
             <StatusToggle active={!form.provider ? 1 : 0} onClick={function() { set('provider', false); }}>
-              <MdAdminPanelSettings size={13} style={{ marginRight: 4 }} />
+              <MdSecurity size={13} style={{ marginRight: 4 }} />
               Solo Admin
             </StatusToggle>
           </div>
@@ -783,7 +783,7 @@ function BarbersTab() {
               <div style={{ width: 36, height: 36, borderRadius: '50%', background: u.provider ? 'rgba(255,144,0,0.12)' : 'rgba(99,102,241,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 {u.provider
                   ? <MdContentCut size={16} color="#ff9000" />
-                  : <MdAdminPanelSettings size={16} color="#818cf8" />
+                  : <MdSecurity size={16} color="#818cf8" />
                 }
               </div>
               <div style={{ minWidth: 0 }}>
