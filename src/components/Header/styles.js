@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { colors } from '../../styles/colors';
 
 export const Container = styled.div`
-  background: #0d0b12;
-  border-bottom: 1px solid rgba(255, 144, 0, 0.12);
+  background: ${colors.bgDeepest};
+  border-bottom: 1px solid rgba(79,142,247, 0.12);
   padding: 0 30px;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
 `;
@@ -30,7 +31,7 @@ export const Content = styled.div`
 
     a {
       font-weight: 600;
-      color: #999591;
+      color: ${colors.textSecondary};
       text-transform: uppercase;
       font-size: 13px;
       letter-spacing: 0.5px;
@@ -43,12 +44,12 @@ export const Content = styled.div`
       transition: color 0.2s, border-color 0.2s;
 
       &:hover {
-        color: #f4ede8;
+        color: ${colors.textPrimary};
       }
 
       &.active {
-        color: #ff9000;
-        border-bottom-color: #ff9000;
+        color: ${colors.primary};
+        border-bottom-color: ${colors.primary};
       }
     }
   }
@@ -72,7 +73,7 @@ export const Profile = styled.div`
 
     strong {
       display: block;
-      color: #f4ede8;
+      color: ${colors.textPrimary};
       font-size: 14px;
       font-weight: 600;
     }
@@ -81,12 +82,12 @@ export const Profile = styled.div`
       display: block;
       margin-top: 2px;
       font-size: 12px;
-      color: #666360;
+      color: ${colors.textMuted};
       text-decoration: none;
       transition: color 0.2s;
 
       &:hover {
-        color: #ff9000;
+        color: ${colors.primary};
       }
     }
   }
@@ -96,18 +97,18 @@ export const Profile = styled.div`
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid rgba(255, 144, 0, 0.4);
+    border: 2px solid rgba(79,142,247, 0.4);
     transition: border-color 0.2s;
 
     &:hover {
-      border-color: #ff9000;
+      border-color: ${colors.primary};
     }
   }
 `;
 
 export const NavBadge = styled.span`
-  background: #ff9000;
-  color: #1a1720;
+  background: ${colors.primary};
+  color: ${colors.bgSurfaceAlt};
   font-size: 10px;
   font-weight: 800;
   border-radius: 10px;

@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import { colors } from './colors';
 
 export default createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
@@ -22,9 +23,9 @@ export default createGlobalStyle`
 
   body {
     -webkit-font-smoothing: antialiased;
-    background: #0f0d14;
-    color: #f4ede8;
-    background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,144,0,0.07) 0%, transparent 70%),
+    background: ${colors.bgBase};
+    color: ${colors.textPrimary};
+    background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(79,142,247,0.07) 0%, transparent 70%),
       radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px);
     background-size: 100% 100%, 28px 28px;
   }

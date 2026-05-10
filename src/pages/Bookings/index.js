@@ -4,6 +4,7 @@ import { es } from 'date-fns/locale';
 import { MdCheck, MdClose, MdCheckCircle, MdErrorOutline, MdFileDownload } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import api from '~/services/api';
+import { colors } from '~/styles/colors';
 import {
   Container, PageTitle, StatsBar, StatCard, StatLabel, StatValue,
   Filters, FilterInput, FilterSelect,
@@ -190,19 +191,19 @@ export default function Bookings() {
       <StatsBar>
         <StatCard>
           <StatLabel>Pendientes</StatLabel>
-          <StatValue color="#ffc107">{stats.pending}</StatValue>
+          <StatValue color={colors.warning}>{stats.pending}</StatValue>
         </StatCard>
         <StatCard>
           <StatLabel>Confirmadas</StatLabel>
-          <StatValue color="#4caf50">{stats.confirmed}</StatValue>
+          <StatValue color={colors.success}>{stats.confirmed}</StatValue>
         </StatCard>
         <StatCard>
           <StatLabel>Completadas</StatLabel>
-          <StatValue color="#ff9000">{stats.completed}</StatValue>
+          <StatValue color={colors.primary}>{stats.completed}</StatValue>
         </StatCard>
         <StatCard>
           <StatLabel>No se presentaron</StatLabel>
-          <StatValue color="#f44336">{stats.noShow}</StatValue>
+          <StatValue color={colors.error}>{stats.noShow}</StatValue>
         </StatCard>
       </StatsBar>
 
@@ -213,11 +214,11 @@ export default function Bookings() {
         </RevenueCard>
         <RevenueCard>
           <RevenueLabel>Saldo pendiente por cobrar</RevenueLabel>
-          <RevenueValue color="#4caf50">{fmt(revenue.balance)}</RevenueValue>
+          <RevenueValue color={colors.success}>{fmt(revenue.balance)}</RevenueValue>
         </RevenueCard>
         <RevenueCard>
           <RevenueLabel>No-shows (anticipos perdidos)</RevenueLabel>
-          <RevenueValue color="#f44336">{stats.noShow} citas</RevenueValue>
+          <RevenueValue color={colors.error}>{stats.noShow} citas</RevenueValue>
         </RevenueCard>
       </RevenueBar>
 
@@ -360,7 +361,7 @@ export default function Bookings() {
             <ModalTitle>Confirmar pago recibido</ModalTitle>
             <ModalText>
               Cliente: <strong>{safeGet(modal.guest_customer).name}</strong><br />
-              Anticipo: <strong style={{ color: '#ff9000' }}>{fmt(modal.deposit_amount)}</strong><br />
+              Anticipo: <strong style={{ color: colors.primary }}>{fmt(modal.deposit_amount)}</strong><br />
               Referencia: <strong>{getFirstPaymentRef(modal)}</strong>
             </ModalText>
             <ModalInput

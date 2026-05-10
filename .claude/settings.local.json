@@ -63,7 +63,16 @@
       "Bash(python -m json.tool)",
       "Bash(python -c ' *)",
       "Bash(vercel --version)",
-      "Bash(vercel ls *)"
+      "Bash(vercel ls *)",
+      "Bash(grep -oE \"#[0-9a-fA-F]{3,6}\")",
+      "Bash(grep -rn \"#[0-9a-fA-F]\\\\{3,6\\\\}\\\\|rgba\\\\|rgb\\(\" C:/Users/ASUS/Desktop/barber/gobarber-client/src --include=\"*.jsx\" --include=\"*.js\")",
+      "Bash(grep -v \"//.*#\")",
+      "Bash(grep -rn \"#[0-9a-fA-F]\\\\{3,6\\\\}\\\\|rgba\\\\|rgb\\(\" C:/Users/ASUS/Desktop/barber/gobarber/src --include=\"*.js\")",
+      "Bash(npx vite *)",
+      "Bash(grep -r \"#[0-9a-fA-F]\\\\{3,6\\\\}\" C:/Users/ASUS/Desktop/barber/gobarber/src --include=\"*.js\")",
+      "Bash(grep *)",
+      "Bash(xargs sed -i 's/rgba\\(255, 144, 0, /rgba\\(79,142,247, /g; s/rgba\\(255,144,0,/rgba\\(79,142,247,/g')",
+      "Bash(xargs sed -i 's/%23ff9000/%234f8ef7/g; s/background=ff9000/background=4f8ef7/g; s/color=1a1720/color=f8faff/g; s/rgba\\(99,102,241,0.12\\)/rgba\\(79,142,247,0.12\\)/g')"
     ]
   }
 }

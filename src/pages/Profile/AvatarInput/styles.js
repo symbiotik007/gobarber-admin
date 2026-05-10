@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { colors } from '../../../styles/colors';
 
 export const Container = styled.div`
   align-self: center;
@@ -16,7 +17,7 @@ export const Container = styled.div`
       width: 120px;
       border-radius: 50%;
       border: 3px solid rgba(255, 255, 255, 0.3);
-      background: #eee;
+      background: ${colors.avatarBg};
     }
 
     input {

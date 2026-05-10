@@ -57,7 +57,7 @@ export default function Header() {
             <img
               src={
                 (profile.avatar && profile.avatar.url) ||
-                `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.name)}&background=ff9000&color=1a1720&size=64`
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.name)}&background=4f8ef7&color=f8faff&size=64`
               }
               alt={profile.name}
             />

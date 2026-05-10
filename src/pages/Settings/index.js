@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { MdSave, MdAdd, MdEdit, MdStoreMallDirectory, MdDelete, MdSecurity, MdContentCut } from 'react-icons/md';
 import api from '~/services/api';
+import { colors } from '~/styles/colors';
 import {
   Container, PageTitle, TabBar, Tab, Section, SectionTitle,
   FormGrid, FormGroup, Label, Input, Select, Hint,
@@ -283,7 +284,7 @@ function ServicesTab() {
           );
         })}
         {services.length === 0 && (
-          <div style={{ textAlign: 'center', color: '#666360', padding: '40px 0' }}>
+          <div style={{ textAlign: 'center', color: colors.textMuted, padding: '40px 0' }}>
             No hay servicios. Crea uno.
           </div>
         )}
@@ -383,11 +384,11 @@ function ScheduleTab({ settings, onSave, saving }) {
           var schedule = workHours[dayIdx];
           var open = schedule !== null && schedule !== undefined;
           return (
-            <div key={dayIdx} style={{ background: '#232129', borderRadius: 12, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <div key={dayIdx} style={{ background: colors.bgRaised, borderRadius: 12, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
               <StatusToggle active={open ? 1 : 0} onClick={function() { toggleDay(dayIdx); }}>
                 {open ? 'Abierto' : 'Cerrado'}
               </StatusToggle>
-              <span style={{ minWidth: 90, fontSize: 14, color: '#f4ede8', fontWeight: 600 }}>
+              <span style={{ minWidth: 90, fontSize: 14, color: colors.textPrimary, fontWeight: 600 }}>
                 {DAY_NAMES[dayIdx]}
               </span>
               {open && (
@@ -440,9 +441,9 @@ function ScheduleTab({ settings, onSave, saving }) {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         {holidays.map(function(d) {
           return (
-            <div key={d} style={{ background: 'rgba(244,67,54,0.1)', border: '1px solid rgba(244,67,54,0.3)', borderRadius: 8, padding: '6px 12px', display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#f44336' }}>
+            <div key={d} style={{ background: 'rgba(244,67,54,0.1)', border: '1px solid rgba(244,67,54,0.3)', borderRadius: 8, padding: '6px 12px', display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: colors.error }}>
               {d}
-              <button onClick={function() { removeHoliday(d); }} style={{ background: 'none', border: 'none', color: '#f44336', cursor: 'pointer', fontSize: 16, lineHeight: 1 }}>×</button>
+              <button onClick={function() { removeHoliday(d); }} style={{ background: 'none', border: 'none', color: colors.error, cursor: 'pointer', fontSize: 16, lineHeight: 1 }}>×</button>
             </div>
           );
         })}
@@ -576,7 +577,7 @@ function BranchesTab() {
           );
         })}
         {branches.length === 0 && (
-          <div style={{ textAlign: 'center', color: '#666360', padding: '40px 0' }}>
+          <div style={{ textAlign: 'center', color: colors.textMuted, padding: '40px 0' }}>
             No hay sucursales. Si manejas una sola sede, esto es opcional.
           </div>
         )}
@@ -780,10 +781,10 @@ function BarbersTab() {
         {users.map(function(u) {
           return (
             <ServiceRow key={u.id} style={{ gridTemplateColumns: 'auto 1fr auto auto auto' }}>
-              <div style={{ width: 36, height: 36, borderRadius: '50%', background: u.provider ? 'rgba(255,144,0,0.12)' : 'rgba(99,102,241,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <div style={{ width: 36, height: 36, borderRadius: '50%', background: u.provider ? 'rgba(79,142,247,0.12)' : 'rgba(79,142,247,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 {u.provider
-                  ? <MdContentCut size={16} color="#ff9000" />
-                  : <MdSecurity size={16} color="#818cf8" />
+                  ? <MdContentCut size={16} color={colors.primary} />
+                  : <MdSecurity size={16} color={colors.secondaryLight} />
                 }
               </div>
               <div style={{ minWidth: 0 }}>
@@ -799,7 +800,7 @@ function BarbersTab() {
               <button
                 onClick={function() { setConfirmDelete(u); }}
                 disabled={deleting === u.id}
-                style={{ background: 'none', border: '1px solid rgba(244,67,54,0.3)', borderRadius: 8, color: '#f44336', padding: '6px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, opacity: deleting === u.id ? 0.4 : 1 }}
+                style={{ background: 'none', border: '1px solid rgba(244,67,54,0.3)', borderRadius: 8, color: colors.error, padding: '6px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, opacity: deleting === u.id ? 0.4 : 1 }}
               >
                 <MdDelete size={13} />
               </button>
@@ -807,7 +808,7 @@ function BarbersTab() {
           );
         })}
         {users.length === 0 && (
-          <div style={{ textAlign: 'center', color: '#666360', padding: '40px 0' }}>No hay usuarios.</div>
+          <div style={{ textAlign: 'center', color: colors.textMuted, padding: '40px 0' }}>No hay usuarios.</div>
         )}
       </ServiceTable>
 
@@ -823,15 +824,15 @@ function BarbersTab() {
         <Overlay onClick={function(e) { if (e.target === e.currentTarget) setConfirmDelete(null); }}>
           <Modal style={{ maxWidth: 360 }}>
             <ModalTitle>¿Eliminar usuario?</ModalTitle>
-            <p style={{ color: '#666360', fontSize: 14, lineHeight: 1.6 }}>
-              Se eliminará <strong style={{ color: '#f4ede8' }}>{confirmDelete.name}</strong> permanentemente. Esta acción no se puede deshacer.
+            <p style={{ color: colors.textMuted, fontSize: 14, lineHeight: 1.6 }}>
+              Se eliminará <strong style={{ color: colors.textPrimary }}>{confirmDelete.name}</strong> permanentemente. Esta acción no se puede deshacer.
             </p>
             <ModalActions style={{ marginTop: 20 }}>
               <CancelBtn onClick={function() { setConfirmDelete(null); }}>Cancelar</CancelBtn>
               <button
                 onClick={function() { handleDelete(confirmDelete); }}
                 disabled={deleting === confirmDelete.id}
-                style={{ flex: 1, height: 44, background: 'rgba(244,67,54,0.9)', border: 'none', borderRadius: 10, color: '#fff', fontWeight: 700, fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                style={{ flex: 1, height: 44, background: 'rgba(244,67,54,0.9)', border: 'none', borderRadius: 10, color: colors.white, fontWeight: 700, fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
               >
                 {deleting === confirmDelete.id ? <Spinner /> : <MdDelete size={16} />}
                 Eliminar

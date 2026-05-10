@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { colors } from '../../styles/colors';
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(6px); }
@@ -17,8 +18,8 @@ export const Container = styled.div`
     display: flex;
     align-self: center;
     align-items: center;
-    background: #181620;
-    border: 1px solid rgba(255, 144, 0, 0.15);
+    background: ${colors.bgSurface};
+    border: 1px solid rgba(79,142,247, 0.15);
     border-radius: 14px;
     padding: 10px 8px;
     gap: 4px;
@@ -32,12 +33,12 @@ export const Container = styled.div`
       width: 40px;
       height: 40px;
       border-radius: 10px;
-      color: #666360;
+      color: ${colors.textMuted};
       transition: background 0.2s, color 0.2s;
 
       &:hover {
-        background: rgba(255, 144, 0, 0.1);
-        color: #ff9000;
+        background: rgba(79,142,247, 0.1);
+        color: ${colors.primary};
       }
 
       svg {
@@ -46,7 +47,7 @@ export const Container = styled.div`
     }
 
     strong {
-      color: #f4ede8;
+      color: ${colors.textPrimary};
       font-size: 18px;
       font-weight: 700;
       margin: 0 16px;
@@ -71,11 +72,11 @@ export const Container = styled.div`
 export const Time = styled.li`
   padding: 20px 22px;
   border-radius: 14px;
-  background: #181620;
+  background: ${colors.bgSurface};
   border: 1px solid ${props =>
     props.available
       ? 'rgba(255,255,255,0.04)'
-      : 'rgba(255, 144, 0, 0.2)'};
+      : 'rgba(79,142,247, 0.2)'};
   opacity: ${props => (props.past ? 0.45 : 1)};
   animation: ${fadeIn} 0.2s ease;
   transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
@@ -86,14 +87,14 @@ export const Time = styled.li`
     `
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 144, 0, 0.12);
-      border-color: rgba(255, 144, 0, 0.4);
+      box-shadow: 0 6px 20px rgba(79,142,247, 0.12);
+      border-color: rgba(79,142,247, 0.4);
     }
   `}
 
   strong {
     display: block;
-    color: ${props => (props.available ? '#4a4757' : '#ff9000')};
+    color: ${props => (props.available ? colors.textPlaceholder : colors.primary)};
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 6px;
@@ -101,7 +102,7 @@ export const Time = styled.li`
 
   span {
     display: block;
-    color: ${props => (props.available ? '#3d3b44' : '#f4ede8')};
+    color: ${props => (props.available ? colors.textDisabled : colors.textPrimary)};
     font-size: 14px;
     font-weight: ${props => (props.available ? '400' : '500')};
   }

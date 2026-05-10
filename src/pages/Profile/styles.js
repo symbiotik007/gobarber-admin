@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { colors } from '../../styles/colors';
 
 const fadeUp = keyframes`
   from { opacity: 0; transform: translateY(8px); }
@@ -20,7 +21,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,144,0,0.1);
+    border: 1px solid rgba(79,142,247,0.1);
     border-radius: 18px;
     padding: 28px;
     gap: 0;
@@ -31,23 +32,23 @@ export const Container = styled.div`
       border-radius: 10px;
       height: 46px;
       padding: 0 16px;
-      color: #f4ede8;
+      color: ${colors.textPrimary};
       margin: 0 0 12px;
       font-size: 14px;
       transition: border-color 0.2s, background 0.2s;
 
       &:focus {
-        border-color: #ff9000;
-        background: rgba(255,144,0,0.05);
+        border-color: ${colors.primary};
+        background: rgba(79,142,247,0.05);
       }
 
       &::placeholder {
-        color: #4a4757;
+        color: ${colors.textPlaceholder};
       }
     }
 
     span {
-      color: #e05555;
+      color: ${colors.errorSoft};
       align-self: flex-start;
       margin: 0 0 10px;
       font-size: 12px;
@@ -64,8 +65,8 @@ export const Container = styled.div`
     button[type='submit'] {
       margin: 8px 0 0;
       height: 48px;
-      background: linear-gradient(135deg, #ff9000, #e08000);
-      color: #0f0d14;
+      background: linear-gradient(135deg, ${colors.primary}, ${colors.primaryDark});
+      color: ${colors.bgBase};
       border: 0;
       border-radius: 10px;
       font-size: 15px;
@@ -75,7 +76,7 @@ export const Container = styled.div`
 
       &:hover {
         transform: translateY(-1px);
-        box-shadow: 0 8px 28px rgba(255,144,0,0.3);
+        box-shadow: 0 8px 28px rgba(79,142,247,0.3);
       }
     }
   }
@@ -91,7 +92,7 @@ export const AvatarInput = styled.div`
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid rgba(255,144,0,0.4);
+    border: 3px solid rgba(79,142,247,0.4);
     transition: border-color 0.2s;
   }
 
@@ -102,8 +103,8 @@ export const AvatarInput = styled.div`
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background: #ff9000;
-    border: 2px solid #0f0d14;
+    background: ${colors.primary};
+    border: 2px solid ${colors.bgBase};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -111,7 +112,7 @@ export const AvatarInput = styled.div`
     transition: background 0.2s, transform 0.2s;
 
     &:hover {
-      background: #e08000;
+      background: ${colors.primaryDark};
       transform: scale(1.1);
     }
 
@@ -120,7 +121,7 @@ export const AvatarInput = styled.div`
     }
 
     svg {
-      color: #0f0d14;
+      color: ${colors.bgBase};
     }
   }
 `;
@@ -128,8 +129,8 @@ export const AvatarInput = styled.div`
 export const Spinner = styled.div`
   width: 20px;
   height: 20px;
-  border: 2px solid rgba(255,144,0,0.2);
-  border-top-color: #ff9000;
+  border: 2px solid rgba(79,142,247,0.2);
+  border-top-color: ${colors.primary};
   border-radius: 50%;
   animation: ${spin} 0.8s linear infinite;
   margin: 80px auto;

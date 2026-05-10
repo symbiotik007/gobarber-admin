@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { lighten } from 'polished';
+import { colors } from '../../styles/colors';
 
 export const Container = styled.div`
   position: relative;
@@ -21,7 +22,7 @@ export const Badge = styled.button`
         top: 0;
         width: 8px;
         height: 8px;
-        background: #ff892e;
+        background: ${colors.primaryBadge};
         border-radius: 50%;
       }
     `}
@@ -32,8 +33,8 @@ export const NotificationList = styled.div`
   width: 280px;
   left: calc(50% - 140px);
   top: calc(100% + 16px);
-  background: #2d2b35;
-  border: 1px solid rgba(255, 144, 0, 0.15);
+  background: ${colors.bgElevated};
+  border: 1px solid rgba(79,142,247, 0.15);
   border-radius: 14px;
   padding: 12px 5px;
   display: ${props => (props.visible ? 'block' : 'none')};
@@ -47,9 +48,9 @@ export const NotificationList = styled.div`
     top: -8px;
     width: 14px;
     height: 14px;
-    background: #2d2b35;
-    border-left: 1px solid rgba(255, 144, 0, 0.15);
-    border-top: 1px solid rgba(255, 144, 0, 0.15);
+    background: ${colors.bgElevated};
+    border-left: 1px solid rgba(79,142,247, 0.15);
+    border-top: 1px solid rgba(79,142,247, 0.15);
     transform: rotate(45deg);
   }
 `;
@@ -60,7 +61,7 @@ export const Scroll = styled(PerfectScrollbar)`
 `;
 
 export const Notification = styled.div`
-  color: #fff;
+  color: ${colors.white};
 
   & + div {
     margin-top: 15px;
@@ -84,7 +85,7 @@ export const Notification = styled.div`
     font-size: 12px;
     border: 0;
     background: none;
-    color: ${lighten(0.2, '#7159c1')};
+    color: ${lighten(0.2, colors.secondary)};
   }
 
   ${props =>
@@ -95,7 +96,7 @@ export const Notification = styled.div`
         display: inline-block;
         width: 8px;
         height: 8px;
-        background: #ff892e;
+        background: ${colors.primaryBadge};
         border-radius: 50%;
         margin-left: 10px;
       }

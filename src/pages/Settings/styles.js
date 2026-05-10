@@ -1,4 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
+import { colors } from '../../styles/colors';
 
 const fadeIn = keyframes`from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); }`;
 const spin = keyframes`from { transform:rotate(0deg); } to { transform:rotate(360deg); }`;
@@ -12,7 +13,7 @@ export const Container = styled.div`
 export const PageTitle = styled.h1`
   font-size: 24px;
   font-weight: 700;
-  color: #f4ede8;
+  color: ${colors.textPrimary};
   margin-bottom: 32px;
 `;
 
@@ -20,7 +21,7 @@ export const TabBar = styled.div`
   display: flex;
   gap: 4px;
   margin-bottom: 28px;
-  border-bottom: 1px solid #2d2b35;
+  border-bottom: 1px solid ${colors.bgElevated};
   overflow-x: auto;
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
@@ -30,15 +31,15 @@ export const Tab = styled.button`
   padding: 10px 18px;
   background: none;
   border: none;
-  border-bottom: 2px solid ${p => p.active ? '#ff9000' : 'transparent'};
-  color: ${p => p.active ? '#ff9000' : '#666360'};
+  border-bottom: 2px solid ${p => p.active ? colors.primary : 'transparent'};
+  color: ${p => p.active ? colors.primary : colors.textMuted};
   font-size: 14px;
   font-weight: ${p => p.active ? '600' : '400'};
   cursor: pointer;
   white-space: nowrap;
   margin-bottom: -1px;
   transition: all 0.2s;
-  &:hover { color: #f4ede8; }
+  &:hover { color: ${colors.textPrimary}; }
 `;
 
 export const Section = styled.div`
@@ -48,7 +49,7 @@ export const Section = styled.div`
 export const SectionTitle = styled.h3`
   font-size: 14px;
   font-weight: 600;
-  color: #999591;
+  color: ${colors.textSecondary};
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 16px;
@@ -71,43 +72,43 @@ export const FormGroup = styled.div`
 
 export const Label = styled.label`
   font-size: 13px;
-  color: #999591;
+  color: ${colors.textSecondary};
   font-weight: 500;
 `;
 
 export const Input = styled.input`
   padding: 12px 14px;
-  background: #181620;
-  border: 2px solid ${p => p.error ? '#e05555' : 'rgba(255,144,0,0.15)'};
+  background: ${colors.bgSurface};
+  border: 2px solid ${p => p.error ? colors.errorSoft : 'rgba(79,142,247,0.15)'};
   border-radius: 10px;
-  color: #f4ede8;
+  color: ${colors.textPrimary};
   font-size: 14px;
   transition: border-color 0.2s;
-  &:focus { outline: none; border-color: #ff9000; }
-  &::placeholder { color: #4a4757; }
+  &:focus { outline: none; border-color: ${colors.primary}; }
+  &::placeholder { color: ${colors.textPlaceholder}; }
 `;
 
 export const Select = styled.select`
   padding: 12px 14px;
-  background: #181620;
-  border: 2px solid rgba(255,144,0,0.15);
+  background: ${colors.bgSurface};
+  border: 2px solid rgba(79,142,247,0.15);
   border-radius: 10px;
-  color: #f4ede8;
+  color: ${colors.textPrimary};
   font-size: 14px;
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23ff9000' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%234f8ef7' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
-  background-color: #181620;
+  background-color: ${colors.bgSurface};
   padding-right: 32px;
-  &:focus { outline: none; border-color: #ff9000; }
-  option { background: #181620; }
+  &:focus { outline: none; border-color: ${colors.primary}; }
+  option { background: ${colors.bgSurface}; }
 `;
 
 export const Hint = styled.span`
   font-size: 11px;
-  color: #4a4757;
+  color: ${colors.textPlaceholder};
   line-height: 1.4;
 `;
 
@@ -127,25 +128,25 @@ const btnBase = css`
 
 export const SaveBtn = styled.button`
   ${btnBase}
-  background: #ff9000;
-  color: #1a1720;
-  &:hover:not(:disabled) { background: #e08000; }
+  background: ${colors.primary};
+  color: ${colors.bgSurfaceAlt};
+  &:hover:not(:disabled) { background: ${colors.primaryDark}; }
 `;
 
 export const DangerBtn = styled.button`
   ${btnBase}
   background: transparent;
   border: 1px solid rgba(244,67,54,0.4);
-  color: #f44336;
+  color: ${colors.error};
   &:hover:not(:disabled) { background: rgba(244,67,54,0.1); }
 `;
 
 export const GhostBtn = styled.button`
   ${btnBase}
   background: transparent;
-  border: 1px solid rgba(255,144,0,0.3);
-  color: #ff9000;
-  &:hover:not(:disabled) { background: rgba(255,144,0,0.08); }
+  border: 1px solid rgba(79,142,247,0.3);
+  color: ${colors.primary};
+  &:hover:not(:disabled) { background: rgba(79,142,247,0.08); }
 `;
 
 export const Actions = styled.div`
@@ -158,8 +159,8 @@ export const Actions = styled.div`
 export const Spinner = styled.div`
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(255,144,0,0.2);
-  border-top-color: #ff9000;
+  border: 2px solid rgba(79,142,247,0.2);
+  border-top-color: ${colors.primary};
   border-radius: 50%;
   animation: ${spin} 0.8s linear infinite;
 `;
@@ -169,7 +170,7 @@ export const SuccessMsg = styled.div`
   border: 1px solid rgba(76,175,80,0.3);
   border-radius: 10px;
   padding: 12px 16px;
-  color: #4caf50;
+  color: ${colors.success};
   font-size: 13px;
   margin-top: 12px;
   animation: ${fadeIn} 0.2s ease;
@@ -183,7 +184,7 @@ export const ServiceTable = styled.div`
 `;
 
 export const ServiceRow = styled.div`
-  background: #181620;
+  background: ${colors.bgSurface};
   border-radius: 12px;
   padding: 16px 20px;
   display: grid;
@@ -197,12 +198,12 @@ export const ServiceRow = styled.div`
 export const ServiceName = styled.span`
   font-size: 15px;
   font-weight: 600;
-  color: #f4ede8;
+  color: ${colors.textPrimary};
 `;
 
 export const ServiceDetail = styled.span`
   font-size: 13px;
-  color: #666360;
+  color: ${colors.textMuted};
   white-space: nowrap;
 `;
 
@@ -214,7 +215,7 @@ export const StatusToggle = styled.button`
   cursor: pointer;
   border: none;
   background: ${p => p.active ? 'rgba(76,175,80,0.15)' : 'rgba(244,67,54,0.1)'};
-  color: ${p => p.active ? '#4caf50' : '#f44336'};
+  color: ${p => p.active ? colors.success : colors.error};
   transition: all 0.2s;
   white-space: nowrap;
 `;
@@ -223,9 +224,9 @@ export const EditBtn = styled.button`
   ${btnBase}
   padding: 6px 12px;
   font-size: 12px;
-  background: rgba(255,144,0,0.1);
-  color: #ff9000;
-  &:hover { background: rgba(255,144,0,0.2); }
+  background: rgba(79,142,247,0.1);
+  color: ${colors.primary};
+  &:hover { background: rgba(79,142,247,0.2); }
 `;
 
 /* ─── Modal ───────────────────────────────────────────────── */
@@ -241,7 +242,7 @@ export const Overlay = styled.div`
 `;
 
 export const Modal = styled.div`
-  background: #1e1c28;
+  background: ${colors.bgCard};
   border-radius: 16px;
   padding: 28px;
   width: 100%;
@@ -252,7 +253,7 @@ export const Modal = styled.div`
 export const ModalTitle = styled.h3`
   font-size: 18px;
   font-weight: 700;
-  color: #f4ede8;
+  color: ${colors.textPrimary};
   margin-bottom: 20px;
 `;
 
@@ -266,8 +267,8 @@ export const CancelBtn = styled.button`
   ${btnBase}
   background: transparent;
   border: 1px solid rgba(255,255,255,0.1);
-  color: #666360;
-  &:hover { color: #f4ede8; }
+  color: ${colors.textMuted};
+  &:hover { color: ${colors.textPrimary}; }
 `;
 
 export const LoadingWrap = styled.div`

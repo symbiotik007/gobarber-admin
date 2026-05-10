@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { colors } from '../../../styles/colors';
 
 const fadeUp = keyframes`
   from { opacity: 0; transform: translateY(16px); }
@@ -6,15 +7,15 @@ const fadeUp = keyframes`
 `;
 
 const glowPulse = keyframes`
-  0%, 100% { box-shadow: 0 0 32px rgba(255,144,0,0.15); }
-  50%       { box-shadow: 0 0 52px rgba(255,144,0,0.28); }
+  0%, 100% { box-shadow: 0 0 32px rgba(79,142,247,0.15); }
+  50%       { box-shadow: 0 0 52px rgba(79,142,247,0.28); }
 `;
 
 export const Wrapper = styled.div`
   min-height: 100vh;
-  background: #0f0d14;
+  background: ${colors.bgBase};
   background-image:
-    radial-gradient(ellipse 70% 55% at 50% -5%, rgba(255,144,0,0.1) 0%, transparent 65%),
+    radial-gradient(ellipse 70% 55% at 50% -5%, rgba(79,142,247,0.1) 0%, transparent 65%),
     radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px);
   background-size: 100% 100%, 28px 28px;
   display: flex;
@@ -34,7 +35,7 @@ export const Brand = styled.div`
     font-weight: 800;
     letter-spacing: 6px;
     text-transform: uppercase;
-    background: linear-gradient(135deg, #ff9000, #ffb800);
+    background: linear-gradient(135deg, ${colors.primary}, ${colors.primaryLight});
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -44,7 +45,7 @@ export const Brand = styled.div`
 
   span {
     font-size: 11px;
-    color: #4a4757;
+    color: ${colors.textPlaceholder};
     letter-spacing: 3px;
     text-transform: uppercase;
   }
@@ -59,7 +60,7 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,144,0,0.12);
+    border: 1px solid rgba(79,142,247,0.12);
     border-radius: 20px;
     padding: 32px 28px;
     animation: ${glowPulse} 4s ease infinite;
@@ -70,23 +71,23 @@ export const Content = styled.div`
       border-radius: 10px;
       height: 46px;
       padding: 0 16px;
-      color: #f4ede8;
+      color: ${colors.textPrimary};
       margin: 0 0 12px;
       font-size: 14px;
       transition: border-color 0.2s;
 
       &:focus {
-        border-color: #ff9000;
-        background: rgba(255,144,0,0.05);
+        border-color: ${colors.primary};
+        background: rgba(79,142,247,0.05);
       }
 
       &::placeholder {
-        color: #4a4757;
+        color: ${colors.textPlaceholder};
       }
     }
 
     span {
-      color: #e05555;
+      color: ${colors.errorSoft};
       align-self: flex-start;
       margin: 0 0 10px;
       font-size: 12px;
@@ -96,8 +97,8 @@ export const Content = styled.div`
     button {
       margin: 8px 0 0;
       height: 48px;
-      background: linear-gradient(135deg, #ff9000, #e08000);
-      color: #0f0d14;
+      background: linear-gradient(135deg, ${colors.primary}, ${colors.primaryDark});
+      color: ${colors.bgBase};
       border: 0;
       border-radius: 10px;
       font-size: 15px;
@@ -108,7 +109,7 @@ export const Content = styled.div`
 
       &:hover {
         transform: translateY(-1px);
-        box-shadow: 0 8px 28px rgba(255,144,0,0.3);
+        box-shadow: 0 8px 28px rgba(79,142,247,0.3);
       }
 
       &:active {
@@ -117,7 +118,7 @@ export const Content = styled.div`
     }
 
     a {
-      color: #666360;
+      color: ${colors.textMuted};
       margin-top: 18px;
       font-size: 13px;
       text-align: center;
@@ -125,7 +126,7 @@ export const Content = styled.div`
       transition: color 0.2s;
 
       &:hover {
-        color: #ff9000;
+        color: ${colors.primary};
       }
     }
   }
