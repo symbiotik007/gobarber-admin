@@ -661,9 +661,12 @@ function BusinessTab({ settings, onSave, saving }) {
 /* ─── Tab: Barberos ──────────────────────────────────────── */
 var EMPTY_USER = { name: '', email: '', password: '', provider: true };
 
-function UserModal({ user, onClose, onSaved }) {
+function UserModal({ user, defaultProvider, onClose, onSaved }) {
   var isEdit = !!(user && user.id);
-  var [form, setForm] = useState(isEdit ? { name: user.name, email: user.email, password: '', provider: user.provider } : EMPTY_USER);
+  var initProvider = defaultProvider !== undefined ? defaultProvider : true;
+  var [form, setForm] = useState(isEdit
+    ? { name: user.name, email: user.email, password: '', provider: user.provider }
+    : Object.assign({}, EMPTY_USER, { provider: initProvider }));
   var [saving, setSaving] = useState(false);
 
   function set(key, val) { setForm(function(f) { return Object.assign({}, f, { [key]: val }); }); }
@@ -672,6 +675,7 @@ function UserModal({ user, onClose, onSaved }) {
     if (!form.name.trim()) { toast.error('Nombre requerido.'); return; }
     if (!form.email.trim()) { toast.error('Correo requerido.'); return; }
     if (!isEdit && form.password.length < 6) { toast.error('La contraseña debe tener al menos 6 caracteres.'); return; }
+    if (isEdit && form.password && form.password.length < 6) { toast.error('La nueva contraseña debe tener al menos 6 caracteres.'); return; }
 
     setSaving(true);
     var payload = { name: form.name, email: form.email, provider: form.provider };
@@ -849,8 +853,12 @@ function BarbersTab() {
 function ClientsTab() {
   var [clients, setClients] = useState([]);
   var [loading, setLoading] = useState(true);
+  var [modal, setModal] = useState(null);
+  var [deleting, setDeleting] = useState(null);
+  var [confirmDelete, setConfirmDelete] = useState(null);
 
-  useEffect(function() {
+  var load = useCallback(function() {
+    setLoading(true);
     api.get('/admin/users').then(function(r) {
       setClients(r.data.filter(function(u) { return !u.provider; }));
     }).catch(function() {
@@ -858,15 +866,37 @@ function ClientsTab() {
     }).finally(function() { setLoading(false); });
   }, []);
 
+  useEffect(function() { load(); }, [load]);
+
+  function handleDelete(user) {
+    setDeleting(user.id);
+    api.delete('/admin/users/' + user.id)
+      .then(function() {
+        toast.success('Usuario eliminado.');
+        load();
+      })
+      .catch(function(e) {
+        var msg = e.response && e.response.data && e.response.data.error;
+        toast.error(msg || 'No se pudo eliminar.');
+      })
+      .finally(function() { setDeleting(null); setConfirmDelete(null); });
+  }
+
   if (loading) return <LoadingWrap><Spinner /></LoadingWrap>;
 
   return (
     <Section>
-      <SectionTitle style={{ marginTop: 0 }}>Usuarios registrados</SectionTitle>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <SectionTitle style={{ margin: 0 }}>Usuarios</SectionTitle>
+        <GhostBtn onClick={function() { setModal({ provider: false }); }}>
+          <MdAdd size={16} /> Nuevo usuario
+        </GhostBtn>
+      </div>
+
       <ServiceTable>
         {clients.map(function(u) {
           return (
-            <ServiceRow key={u.id} style={{ gridTemplateColumns: 'auto 1fr auto' }}>
+            <ServiceRow key={u.id} style={{ gridTemplateColumns: 'auto 1fr auto auto auto' }}>
               <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(79,142,247,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <span style={{ fontSize: 14, fontWeight: 700, color: colors.primary }}>
                   {u.name.charAt(0).toUpperCase()}
@@ -875,19 +905,63 @@ function ClientsTab() {
               <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <ServiceName>{u.name}</ServiceName>
                 <ServiceDetail>{u.email}</ServiceDetail>
+                <ServiceDetail style={{ fontSize: 11 }}>
+                  {u.created_at ? new Date(u.created_at).toLocaleDateString('es-CO', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
+                </ServiceDetail>
               </div>
-              <ServiceDetail style={{ whiteSpace: 'nowrap', fontSize: 11 }}>
-                {u.created_at ? new Date(u.created_at).toLocaleDateString('es-CO', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
-              </ServiceDetail>
+              <StatusToggle active={0} style={{ cursor: 'default' }}>
+                Cliente
+              </StatusToggle>
+              <EditBtn onClick={function() { setModal(u); }}>
+                <MdEdit size={13} /> Editar
+              </EditBtn>
+              <button
+                onClick={function() { setConfirmDelete(u); }}
+                disabled={deleting === u.id}
+                style={{ background: 'none', border: '1px solid rgba(244,67,54,0.3)', borderRadius: 8, color: colors.error, padding: '6px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, opacity: deleting === u.id ? 0.4 : 1 }}
+              >
+                <MdDelete size={13} />
+              </button>
             </ServiceRow>
           );
         })}
         {clients.length === 0 && (
           <div style={{ textAlign: 'center', color: colors.textMuted, padding: '40px 0' }}>
-            Aún no hay usuarios registrados desde la app.
+            Aún no hay usuarios registrados.
           </div>
         )}
       </ServiceTable>
+
+      {modal !== null && (
+        <UserModal
+          user={modal.id ? modal : null}
+          defaultProvider={false}
+          onClose={function() { setModal(null); }}
+          onSaved={load}
+        />
+      )}
+
+      {confirmDelete && (
+        <Overlay onClick={function(e) { if (e.target === e.currentTarget) setConfirmDelete(null); }}>
+          <Modal style={{ maxWidth: 360 }}>
+            <ModalTitle>¿Eliminar usuario?</ModalTitle>
+            <p style={{ color: colors.textMuted, fontSize: 14, lineHeight: 1.6 }}>
+              Se eliminará <strong style={{ color: colors.textPrimary }}>{confirmDelete.name}</strong> permanentemente. Esta acción no se puede deshacer.
+            </p>
+            <ModalActions style={{ marginTop: 20 }}>
+              <CancelBtn onClick={function() { setConfirmDelete(null); }}>Cancelar</CancelBtn>
+              <button
+                onClick={function() { handleDelete(confirmDelete); }}
+                disabled={deleting === confirmDelete.id}
+                style={{ flex: 1, height: 44, background: 'rgba(244,67,54,0.9)', border: 'none', borderRadius: 10, color: colors.white, fontWeight: 700, fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+              >
+                {deleting === confirmDelete.id ? <Spinner /> : <MdDelete size={16} />}
+                Eliminar
+              </button>
+            </ModalActions>
+          </Modal>
+        </Overlay>
+      )}
     </Section>
   );
 }
