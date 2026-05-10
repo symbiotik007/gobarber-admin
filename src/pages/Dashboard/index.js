@@ -12,7 +12,7 @@ import {
   parseISO,
 } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
-import pt from 'date-fns/locale/pt-BR';
+import pt from 'date-fns/locale/es';
 import { Container, Time } from './styles';
 import api from '~/services/api';
 
@@ -66,11 +66,11 @@ export default function Dashboard() {
     <Container>
       <header>
         <button type="button" onClick={handlePrevDay}>
-          <MdChevronLeft size={36} color="#fff" />
+          <MdChevronLeft size={28} />
         </button>
         <strong>{dateFormatted}</strong>
         <button type="button" onClick={handleNextDay}>
-          <MdChevronRight size={36} color="#fff" />
+          <MdChevronRight size={28} />
         </button>
       </header>
 
@@ -79,7 +79,7 @@ export default function Dashboard() {
           <Time key={time.time} past={time.past} available={!time.appointment}>
             <strong>{time.time}</strong>
             <span>
-              {time.appointment ? time.appointment.user.name : 'Em aberto'}
+              {time.appointment ? time.appointment.user.name : 'Disponible'}
             </span>
           </Time>
         ))}

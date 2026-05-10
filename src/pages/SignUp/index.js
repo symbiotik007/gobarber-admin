@@ -8,13 +8,13 @@ import logo from '~/assets/images/logo.svg';
 import { signUpRequest } from '~/store/modules/auth/actions';
 
 const schema = Yup.object().shape({
-  name: Yup.string().required('O nome é obrigatório.'),
+  name: Yup.string().required('El nombre es obligatorio.'),
   email: Yup.string()
-    .email('Insira um e-mail válido')
-    .required('O e-mail é obrigatório'),
+    .email('Ingresa un correo válido')
+    .required('El correo es obligatorio'),
   password: Yup.string()
-    .min(6, 'A senha precisa ter 6 caracteres ou mais')
-    .required('A senha é obrigatória'),
+    .min(6, 'La contraseña debe tener 6 caracteres o más')
+    .required('La contraseña es obligatoria'),
 });
 
 export default function SignUp() {
@@ -32,22 +32,22 @@ export default function SignUp() {
         <Input
           name="name"
           type="text"
-          placeholder="Qual o seu nome completo?"
+          placeholder="Tu nombre completo"
         />
         <Input
           name="email"
           type="email"
-          placeholder="E o seu e-mail? Estou curioso..."
+          placeholder="Tu correo electrónico"
         />
         <Input
           name="password"
           type="password"
-          placeholder="Sua senha secreta..."
+          placeholder="Tu contraseña"
         />
 
-        <button type="submit">Criar conta</button>
+        <button type="submit">Crear cuenta</button>
 
-        <Link to="/">Já tenho login</Link>
+        <Link to="/">Ya tengo cuenta</Link>
       </Form>
     </>
   );

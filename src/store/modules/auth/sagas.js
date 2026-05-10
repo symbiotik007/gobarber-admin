@@ -16,7 +16,7 @@ export function* signIn({ payload }) {
     const { token, user } = response.data;
 
     if (!user.provider) {
-      toast.error('Usuário não é prestador.');
+      toast.error('Este usuario no es barbero.');
     }
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
@@ -25,7 +25,7 @@ export function* signIn({ payload }) {
 
     history.push('/dashboard');
   } catch (err) {
-    toast.error('E-mail ou senha incorretos.');
+    toast.error('Correo o contraseña incorrectos.');
     yield put(signFailure());
   }
 }
@@ -43,7 +43,7 @@ export function* signUp({ payload }) {
 
     history.push('/');
   } catch (err) {
-    toast.error('Falha no cadastro. Verifique os seus dados');
+    toast.error('Error al registrarse. Verifica tus datos.');
     yield put(signFailure());
   }
 }
@@ -60,7 +60,7 @@ export function setToken({ payload }) {
 
 export function signOut() {
   history.push('/');
-  toast.info('Você saiu da aplicação. Faça login para entrar de novo.');
+  toast.info('Sesión cerrada. Inicia sesión para volver a entrar.');
 }
 
 export default all([

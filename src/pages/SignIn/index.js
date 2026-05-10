@@ -9,9 +9,9 @@ import { signInRequest } from '~/store/modules/auth/actions';
 
 const schema = Yup.object().shape({
   email: Yup.string()
-    .email('Insira um e-mail válido')
-    .required('O e-mail é obrigatório'),
-  password: Yup.string().required('A senha é obrigatória'),
+    .email('Ingresa un correo válido')
+    .required('El correo es obligatorio'),
+  password: Yup.string().required('La contraseña es obligatoria'),
 });
 
 export default function SignIn() {
@@ -27,16 +27,16 @@ export default function SignIn() {
       <img src={logo} alt="GoBarber" />
 
       <Form schema={schema} onSubmit={handleSubmit}>
-        <Input name="email" type="email" placeholder="Digite o seu e-mail..." />
+        <Input name="email" type="email" placeholder="Tu correo electrónico..." />
         <Input
           name="password"
           type="password"
-          placeholder="Sua senha secreta..."
+          placeholder="Tu contraseña..."
         />
 
-        <button type="submit">{!loading ? 'Acessar' : 'Carregando...'}</button>
+        <button type="submit">{!loading ? 'Ingresar' : 'Cargando...'}</button>
 
-        <Link to="/register">Criar conta gratuita</Link>
+        <Link to="/register">Crear cuenta gratis</Link>
       </Form>
     </>
   );

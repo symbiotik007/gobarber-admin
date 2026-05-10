@@ -29,24 +29,28 @@ export const Badge = styled.button`
 
 export const NotificationList = styled.div`
   position: absolute;
-  width: 260px;
-  left: calc(50% - 130px);
-  top: calc(100% + 30px);
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 4px;
-  padding: 15px 5px;
+  width: 280px;
+  left: calc(50% - 140px);
+  top: calc(100% + 16px);
+  background: #2d2b35;
+  border: 1px solid rgba(255, 144, 0, 0.15);
+  border-radius: 14px;
+  padding: 12px 5px;
   display: ${props => (props.visible ? 'block' : 'none')};
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  z-index: 100;
 
   &::before {
     content: '';
     position: absolute;
-    left: calc(50% - 20px);
-    top: -20px;
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid rgba(0, 0, 0, 0.6);
+    left: calc(50% - 8px);
+    top: -8px;
+    width: 14px;
+    height: 14px;
+    background: #2d2b35;
+    border-left: 1px solid rgba(255, 144, 0, 0.15);
+    border-top: 1px solid rgba(255, 144, 0, 0.15);
+    transform: rotate(45deg);
   }
 `;
 
