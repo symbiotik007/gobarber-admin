@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
-import { MdSave, MdAdd, MdEdit, MdStoreMallDirectory } from 'react-icons/md';
+import { MdSave, MdAdd, MdEdit, MdStoreMallDirectory, MdDelete, MdPerson, MdAdminPanelSettings, MdContentCut } from 'react-icons/md';
 import api from '~/services/api';
 import {
   Container, PageTitle, TabBar, Tab, Section, SectionTitle,
@@ -10,7 +10,7 @@ import {
   Overlay, Modal, ModalTitle, ModalActions, CancelBtn, LoadingWrap,
 } from './styles';
 
-const TABS = ['Pagos', 'Reservas', 'Horarios', 'Servicios', 'Sucursales', 'Negocio'];
+const TABS = ['Pagos', 'Reservas', 'Horarios', 'Servicios', 'Sucursales', 'Negocio', 'Barberos'];
 
 var EMPTY_SERVICE = {
   name: '', duration_minutes: 30, price: 0,
@@ -657,6 +657,193 @@ function BusinessTab({ settings, onSave, saving }) {
   );
 }
 
+/* ─── Tab: Barberos ──────────────────────────────────────── */
+var EMPTY_USER = { name: '', email: '', password: '', provider: true };
+
+function UserModal({ user, onClose, onSaved }) {
+  var isEdit = !!(user && user.id);
+  var [form, setForm] = useState(isEdit ? { name: user.name, email: user.email, password: '', provider: user.provider } : EMPTY_USER);
+  var [saving, setSaving] = useState(false);
+
+  function set(key, val) { setForm(function(f) { return Object.assign({}, f, { [key]: val }); }); }
+
+  function handleSave() {
+    if (!form.name.trim()) { toast.error('Nombre requerido.'); return; }
+    if (!form.email.trim()) { toast.error('Correo requerido.'); return; }
+    if (!isEdit && form.password.length < 6) { toast.error('La contraseña debe tener al menos 6 caracteres.'); return; }
+
+    setSaving(true);
+    var payload = { name: form.name, email: form.email, provider: form.provider };
+    if (form.password) payload.password = form.password;
+
+    var req = isEdit
+      ? api.put('/admin/users/' + user.id, payload)
+      : api.post('/admin/users', payload);
+
+    req.then(function() {
+      toast.success(isEdit ? 'Usuario actualizado.' : 'Usuario creado.');
+      onSaved();
+      onClose();
+    }).catch(function(e) {
+      var msg = e.response && e.response.data && e.response.data.error;
+      toast.error(msg || 'Error al guardar.');
+    }).finally(function() { setSaving(false); });
+  }
+
+  return (
+    <Overlay onClick={function(e) { if (e.target === e.currentTarget) onClose(); }}>
+      <Modal>
+        <ModalTitle>{isEdit ? 'Editar usuario' : 'Nuevo usuario'}</ModalTitle>
+        <FormGrid>
+          <FormGroup>
+            <Label>Nombre completo</Label>
+            <Input placeholder="Luis Fernando" value={form.name} onChange={function(e) { set('name', e.target.value); }} />
+          </FormGroup>
+          <FormGroup>
+            <Label>Correo electrónico</Label>
+            <Input type="email" placeholder="barbero@troya.com" value={form.email} onChange={function(e) { set('email', e.target.value); }} />
+          </FormGroup>
+          <FormGroup>
+            <Label>{isEdit ? 'Nueva contraseña (dejar vacío para no cambiar)' : 'Contraseña'}</Label>
+            <Input type="password" placeholder="Mínimo 6 caracteres" value={form.password} onChange={function(e) { set('password', e.target.value); }} />
+          </FormGroup>
+        </FormGrid>
+        <FormGroup style={{ marginTop: 12 }}>
+          <Label>Rol</Label>
+          <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+            <StatusToggle active={form.provider ? 1 : 0} onClick={function() { set('provider', true); }}>
+              <MdContentCut size={13} style={{ marginRight: 4 }} />
+              Barbero
+            </StatusToggle>
+            <StatusToggle active={!form.provider ? 1 : 0} onClick={function() { set('provider', false); }}>
+              <MdAdminPanelSettings size={13} style={{ marginRight: 4 }} />
+              Solo Admin
+            </StatusToggle>
+          </div>
+          <Hint style={{ marginTop: 6 }}>Barbero = puede iniciar sesión en el admin y aparece en reservas. Solo Admin = acceso al panel pero no aparece como barbero.</Hint>
+        </FormGroup>
+        <ModalActions style={{ marginTop: 20 }}>
+          <CancelBtn onClick={onClose}>Cancelar</CancelBtn>
+          <SaveBtn onClick={handleSave} disabled={saving} style={{ flex: 1, justifyContent: 'center' }}>
+            {saving ? <Spinner /> : <MdSave size={16} />}
+            {saving ? 'Guardando...' : 'Guardar'}
+          </SaveBtn>
+        </ModalActions>
+      </Modal>
+    </Overlay>
+  );
+}
+
+function BarbersTab() {
+  var [users, setUsers] = useState([]);
+  var [loading, setLoading] = useState(true);
+  var [modal, setModal] = useState(null);
+  var [deleting, setDeleting] = useState(null);
+  var [confirmDelete, setConfirmDelete] = useState(null);
+
+  var load = useCallback(function() {
+    api.get('/admin/users').then(function(r) {
+      setUsers(r.data);
+    }).catch(function() {
+      toast.error('Error al cargar usuarios.');
+    }).finally(function() { setLoading(false); });
+  }, []);
+
+  useEffect(function() { load(); }, [load]);
+
+  function handleDelete(user) {
+    setDeleting(user.id);
+    api.delete('/admin/users/' + user.id)
+      .then(function() {
+        toast.success('Usuario eliminado.');
+        load();
+      })
+      .catch(function(e) {
+        var msg = e.response && e.response.data && e.response.data.error;
+        toast.error(msg || 'No se pudo eliminar.');
+      })
+      .finally(function() { setDeleting(null); setConfirmDelete(null); });
+  }
+
+  if (loading) return <LoadingWrap><Spinner /></LoadingWrap>;
+
+  return (
+    <Section>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <SectionTitle style={{ margin: 0 }}>Usuarios del panel</SectionTitle>
+        <GhostBtn onClick={function() { setModal({}); }}>
+          <MdAdd size={16} /> Nuevo usuario
+        </GhostBtn>
+      </div>
+
+      <ServiceTable>
+        {users.map(function(u) {
+          return (
+            <ServiceRow key={u.id} style={{ gridTemplateColumns: 'auto 1fr auto auto auto' }}>
+              <div style={{ width: 36, height: 36, borderRadius: '50%', background: u.provider ? 'rgba(255,144,0,0.12)' : 'rgba(99,102,241,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                {u.provider
+                  ? <MdContentCut size={16} color="#ff9000" />
+                  : <MdAdminPanelSettings size={16} color="#818cf8" />
+                }
+              </div>
+              <div style={{ minWidth: 0 }}>
+                <ServiceName>{u.name}</ServiceName>
+                <ServiceDetail>{u.email}</ServiceDetail>
+              </div>
+              <StatusToggle active={u.provider ? 1 : 0} style={{ cursor: 'default' }}>
+                {u.provider ? 'Barbero' : 'Admin'}
+              </StatusToggle>
+              <EditBtn onClick={function() { setModal(u); }}>
+                <MdEdit size={13} /> Editar
+              </EditBtn>
+              <button
+                onClick={function() { setConfirmDelete(u); }}
+                disabled={deleting === u.id}
+                style={{ background: 'none', border: '1px solid rgba(244,67,54,0.3)', borderRadius: 8, color: '#f44336', padding: '6px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, opacity: deleting === u.id ? 0.4 : 1 }}
+              >
+                <MdDelete size={13} />
+              </button>
+            </ServiceRow>
+          );
+        })}
+        {users.length === 0 && (
+          <div style={{ textAlign: 'center', color: '#666360', padding: '40px 0' }}>No hay usuarios.</div>
+        )}
+      </ServiceTable>
+
+      {modal !== null && (
+        <UserModal
+          user={modal.id ? modal : null}
+          onClose={function() { setModal(null); }}
+          onSaved={load}
+        />
+      )}
+
+      {confirmDelete && (
+        <Overlay onClick={function(e) { if (e.target === e.currentTarget) setConfirmDelete(null); }}>
+          <Modal style={{ maxWidth: 360 }}>
+            <ModalTitle>¿Eliminar usuario?</ModalTitle>
+            <p style={{ color: '#666360', fontSize: 14, lineHeight: 1.6 }}>
+              Se eliminará <strong style={{ color: '#f4ede8' }}>{confirmDelete.name}</strong> permanentemente. Esta acción no se puede deshacer.
+            </p>
+            <ModalActions style={{ marginTop: 20 }}>
+              <CancelBtn onClick={function() { setConfirmDelete(null); }}>Cancelar</CancelBtn>
+              <button
+                onClick={function() { handleDelete(confirmDelete); }}
+                disabled={deleting === confirmDelete.id}
+                style={{ flex: 1, height: 44, background: 'rgba(244,67,54,0.9)', border: 'none', borderRadius: 10, color: '#fff', fontWeight: 700, fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+              >
+                {deleting === confirmDelete.id ? <Spinner /> : <MdDelete size={16} />}
+                Eliminar
+              </button>
+            </ModalActions>
+          </Modal>
+        </Overlay>
+      )}
+    </Section>
+  );
+}
+
 /* ═══════════════════════════════════════════════════════════
    MAIN
 ═══════════════════════════════════════════════════════════ */
@@ -712,6 +899,7 @@ export default function Settings() {
       {activeTab === 3 && <ServicesTab />}
       {activeTab === 4 && <BranchesTab />}
       {activeTab === 5 && <BusinessTab settings={settings} onSave={handleSave} saving={saving} />}
+      {activeTab === 6 && <BarbersTab />}
     </Container>
   );
 }
